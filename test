@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>異世界転生数秘術</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #3a3a6a);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 22px;
+}
+
+input, button {
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  margin: 10px;
+}
+
+button {
+  background: #ffcc00;
+  color: black;
+  font-weight: bold;
+}
+
+.result {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+}
+
+/* グリッド */
+#grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(11, 28px);
+  gap: 3px;
+  justify-content: center;
+}
+
+.cell {
+  width: 28px;
+  height: 28px;
+  font-size: 10px;
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.active {
+  background: gold;
+  color: black;
+  font-weight: bold;
+  transform: scale(1.2);
+}
+</style>
+</head>
+
+<body>
+
+<h1>異世界転生数秘術</h1>
+
+<input type="date" id="birthdate">
+<br>
+<button onclick="run()">占う</button>
+
+<div class="result" id="result"></div>
+
+<div id="grid"></div>
+
+<script>
+// mod補正（0→最大値）
+function modFix(value, modBase) {
+  const result = value % modBase;
+  return result === 0 ? modBase : result;
+}
+
+// 占い計算
+function calculateFortune() {
+  const input = document.getElementById("birthdate").value;
+
+  if (!input) {
+    alert("生年月日を入力してください");
+    return null;
+  }
+
+  const [year, month, day] = input.split("-").map(Number);
+
+  const total = year + month + day;
+
+  return {
+    total: total,
+    vertical: modFix(total, 9),
+    horizontal: modFix(total, 11),
+    cross: modFix(total, 99)
+  };
+}
+
+// クロスナンバー → 座標変換
+function getPositionFromCross(cross) {
+  const x = ((cross - 1) % 11) + 1;
+  const y = Math.floor((cross - 1) / 11) + 1;
+  return { x, y };
+}
+
+// グリッド生成
+function createGrid(targetX, targetY) {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  let count = 1;
+
+  for (let y = 1; y <= 9; y++) {
+    for (let x = 1; x <= 11; x++) {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.textContent = count;
+
+      if (x === targetX && y === targetY) {
+        cell.classList.add("active");
+      }
+
+      grid.appendChild(cell);
+      count++;
+    }
+  }
+}
+
+// 実行
+function run() {
+  const data = calculateFortune();
+  if (!data) return;
+
+  const pos = getPositionFromCross(data.cross);
+
+  document.getElementById("result").innerHTML = `
+    合計値: ${data.total}<br><br>
+    ヴァーチカル: ${data.vertical}<br>
+    ホリゾンタル: ${data.horizontal}<br>
+    クロス: ${data.cross}<br><br>
+    座標: (${pos.x}, ${pos.y})
+  `;
+
+  createGrid(pos.x, pos.y);
+}
+</script>
+
+</body>
+</html>
