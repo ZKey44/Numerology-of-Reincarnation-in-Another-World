@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>異世界転生数秘術</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #3a3a6a);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+#form-area { margin: 10px 0; }
+
+button {
+  margin-left: 8px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(135deg, #cc66ff, #8844ff);
+  color: white;
+  cursor: pointer;
+}
+
+#grid {
+  margin: 20px auto 0;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 2px;
+  max-width: 520px;
+}
+
+.cell,.axis {
+  aspect-ratio:1/1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:4px;
+}
+
+.cell{background:#222;}
+.axis{background:#222;color:#aaa;}
+
+.current{background:#cc66ff;}
+.axis-current{background:#cc66ff;}
+.final-cross{background:gold;color:black;}
+
+#result{
+  margin-top:40px;
+  opacity:0;
+  transition:.5s;
+  line-height:1.8;
+}
+
+#shareBtn{
+  margin-top:20px;
+  margin-bottom:30px;
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<h2>異世界転生数秘術</h2>
+
+<div id="form-area">
+<input type="date" id="birthdate">
+<button onclick="run()">占う</button>
+</div>
+
+<div id="grid"></div>
+<div id="result"></div>
+
+<button id="shareBtn" onclick="shareResult()">Xに投稿</button>
+
+<script>
+
+// ===== データ =====
+const gridData=[
+[94,40,85,31,76,22,67,13,58,4,49],
+[39,84,30,75,21,66,12,57,3,48,93],
+[83,29,74,20,65,11,56,2,47,92,38],
+[28,73,19,64,10,55,1,46,91,37,82],
+[72,18,63,9,54,99,45,90,36,81,27],
+[17,62,8,53,98,44,89,35,80,26,71],
+[61,7,52,97,43,88,34,79,25,70,16],
+[6,51,96,42,87,33,78,24,69,15,60],
+[50,95,41,86,32,77,23,68,14,59,5]
+];
+
+const verticalMap={1:"戦士",2:"僧侶",3:"盗賊",4:"騎士",5:"忍者",6:"狩人",7:"魔術師",8:"侍",9:"放浪者"};
+
+const horizontalMap={
+1:"白き天空の領域ケテル",
+2:"知恵と創造の領域コクマー",
+3:"黒き凍土の領域ビナー",
+4:"慈悲と豊穣の領域ケセド",
+5:"赤き焦土の領域ゲブラー",
+6:"美と調和の領域ティファレト",
+7:"翠き砂海の領域ネツァク",
+8:"栄光と交易の領域ホド",
+9:"深き湖畔の領域イェソド",
+10:"王国と繁栄の領域マルクト",
+11:"知識と深淵の領域ダアト"
+};
+
+// ===== 計算 =====
+function modFix(v,m){return v%m===0?m:v%m;}
+
+function calculateFortune(){
+  const val=document.getElementById("birthdate").value;
+  if(!val) return null;
+  const[y,m,d]=val.split("-").map(Number);
+  const t=y+m+d;
+  return{
+    vertical:modFix(t,9),
+    horizontal:modFix(t,11),
+    cross:modFix(t,99)
+  };
+}
+
+// ===== 投稿文 =====
+function buildShareText(data){
+return `もう一人のあなたの転生結果は…
+
+【${horizontalMap[data.horizontal]}の${verticalMap[data.vertical]}】
+
+・ヴァーチカルナンバー${data.vertical}「${verticalMap[data.vertical]}」
+・ホリゾンタルナンバー${data.horizontal}「${horizontalMap[data.horizontal]}」
+
+そして、クロスナンバー${data.cross}の力が目覚める――
+
+#異世界転生数秘術
+
+https://zkey44.github.io/numerology/`;
+}
+
+// ===== 実行 =====
+let lastText="";
+
+function run(){
+  const data=calculateFortune();
+  if(!data) return;
+
+  const text=buildShareText(data);
+
+  document.getElementById("result").innerHTML=text.replace(/\n/g,"<br>");
+  document.getElementById("result").style.opacity=1;
+
+  lastText=text;
+  document.getElementById("shareBtn").style.display="inline-block";
+}
+
+// ===== 投稿 =====
+function shareResult(){
+  window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(lastText));
+}
+
+// ===== 初期描画 =====
+function createGrid(){
+  const g=document.getElementById("grid");
+  gridData.forEach(r=>{
+    r.forEach(n=>{
+      const d=document.createElement("div");
+      d.className="cell";
+      d.textContent=n;
+      g.appendChild(d);
+    });
+  });
+}
+createGrid();
+
+</script>
+
+</body>
+</html>
