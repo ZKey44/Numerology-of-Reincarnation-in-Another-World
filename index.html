@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>異世界転生数秘術</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #3a3a6a);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+/* ===== レスポンシブグリッド ===== */
+#grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 2px;
+  max-width: 100%;
+}
+
+/* 正方形 */
+.cell, .axis {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  font-size: 2.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.4s ease;
+}
+
+.cell { background: #222; }
+.axis { background: #222; color: #aaa; }
+
+/* 状態 */
+.start { background: #ff4444; }
+.passed { background: rgba(255,255,0,0.2); }
+
+/* 現在（紫） */
+.current {
+  background: #cc66ff;
+  color: white;
+  transform: scale(1.3);
+  box-shadow: 0 0 12px #cc66ff;
+}
+
+.axis-current {
+  background: #cc66ff;
+  color: white;
+}
+
+/* ===== 最終結果 ===== */
+
+/* クロス */
+.final-cross {
+  background: gold;
+  color: black;
+  transform: scale(1.3);
+  box-shadow: 0 0 12px gold;
+}
+
+/* ヴァーチカル（改善） */
+.final-vertical {
+  background: #3399ff;
+  color: white;              /* ← 修正 */
+  font-weight: bold;
+  text-shadow: 0 0 4px rgba(0,0,0,0.6);
+}
+
+/* ホリゾンタル（改善） */
+.final-horizontal {
+  background: #33cc66;
+  color: black;              /* ← 修正 */
+  font-weight: bold;
+  text-shadow: 0 0 4px rgba(255,255,255,0.3);
+}
+
+/* 結果 */
+#result {
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+/* PC用 */
+@media (min-width: 600px) {
+  .cell, .axis {
+    font-size: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<h2>異世界転生数秘術</h2>
+
+<input type="date" id="birthdate">
+<button onclick="run()">占う</button>
+
+<div id="grid"></div>
+<div id="result"></div>
+
+<script>
+
+// ===== データ =====
+const gridData = [
+  [94,40,85,31,76,22,67,13,58,4,49],
+  [39,84,30,75,21,66,12,57,3,48,93],
+  [83,29,74,20,65,11,56,2,47,92,38],
+  [28,73,19,64,10,55,1,46,91,37,82],
+  [72,18,63,9,54,99,45,90,36,81,27],
+  [17,62,8,53,98,44,89,35,80,26,71],
+  [61,7,52,97,43,88,34,79,25,70,16],
+  [6,51,96,42,87,33,78,24,69,15,60],
+  [50,95,41,86,32,77,23,68,14,59,5]
+];
+
+const verticalAxis = [4,3,2,1,9,8,7,6,5];
+const horizontalAxis = [6,7,8,9,10,11,1,2,3,4,5];
+
+// ===== クラス =====
+const verticalClassMap = {
+  1:"戦士",2:"僧侶",3:"盗賊",4:"騎士",5:"忍者",
+  6:"狩人",7:"魔術師",8:"侍",9:"放浪者"
+};
+
+// ===== ホリゾンタル =====
+const horizontalMap = {
+  1:"白き天空の領域ケテル",
+  2:"知恵と創造の領域コクマー",
+  3:"黒き凍土の領域ビナー",
+  4:"慈悲と豊穣の領域ケセド",
+  5:"赤き焦土の領域ゲブラー",
+  6:"美と調和の領域ティファレト",
+  7:"翠き砂海の領域ネツァク",
+  8:"栄光と交易の領域ホド",
+  9:"深き湖畔の領域イェソド",
+  10:"王国と繁栄の領域マルクト",
+  11:"知識と深淵の領域ダアト"
+};
+
+function getVerticalMessage(n){
+  return `ヴァーチカルナンバー${n}の加護により「${verticalClassMap[n]}」のクラス適性が付与される`;
+}
+
+function getHorizontalMessage(n){
+  return `ホリゾンタルナンバー${n}の導きにより、「${horizontalMap[n]}」に降り立つ`;
+}
+
+// ===== 計算 =====
+function modFix(v,m){ return v%m===0?m:v%m; }
+
+function calculateFortune(){
+  const input=document.getElementById("birthdate").value;
+  if(!input) return null;
+
+  const [y,m,d]=input.split("-").map(Number);
+  const total=y+m+d;
+
+  return {
+    vertical:modFix(total,9),
+    horizontal:modFix(total,11),
+    cross:modFix(total,99)
+  };
+}
+
+function getDigits(){
+  return document.getElementById("birthdate").value
+    .replaceAll("-","")
+    .split("")
+    .reverse()
+    .map(Number);
+}
+
+// ===== 座標 =====
+function findPos(n){
+  for(let y=0;y<9;y++){
+    for(let x=0;x<11;x++){
+      if(gridData[y][x]===n) return {x,y};
+    }
+  }
+}
+
+// ===== 移動 =====
+function move(start,digits){
+  let path=[];
+  let x=start.x,y=start.y;
+  path.push({x,y});
+
+  digits.forEach((num,i)=>{
+    for(let j=0;j<num;j++){
+      if(i%2===0){
+        x=(x+1)%11;
+        y=(y-1+9)%9;
+      }else{
+        x=(x-1+11)%11;
+        y=(y-1+9)%9;
+      }
+      path.push({x,y});
+    }
+  });
+
+  return path;
+}
+
+// ===== 描画 =====
+function createGrid(path, final, vNum, hNum, currentPos){
+  const grid=document.getElementById("grid");
+  grid.innerHTML="";
+
+  let currentV = currentPos ? verticalAxis[currentPos.y] : null;
+  let currentH = currentPos ? horizontalAxis[currentPos.x] : null;
+
+  grid.appendChild(document.createElement("div"));
+  horizontalAxis.forEach(n=>{
+    let d=document.createElement("div");
+    d.className="axis";
+    if(currentPos && n===currentH) d.classList.add("axis-current");
+    else if(final && n===hNum) d.classList.add("final-horizontal");
+    d.textContent=n;
+    grid.appendChild(d);
+  });
+  grid.appendChild(document.createElement("div"));
+
+  for(let y=0;y<9;y++){
+
+    let l=document.createElement("div");
+    l.className="axis";
+    if(currentPos && verticalAxis[y]===currentV) l.classList.add("axis-current");
+    else if(final && verticalAxis[y]===vNum) l.classList.add("final-vertical");
+    l.textContent=verticalAxis[y];
+    grid.appendChild(l);
+
+    for(let x=0;x<11;x++){
+      let num=gridData[y][x];
+      let cell=document.createElement("div");
+      cell.className="cell";
+      cell.textContent=num.toString().padStart(2,"0");
+
+      if(path.some(p=>p.x===x && p.y===y)) cell.classList.add("passed");
+      if(num===99) cell.classList.add("start");
+      if(final && final.x===x && final.y===y) cell.classList.add("final-cross");
+      if(currentPos && currentPos.x===x && currentPos.y===y) cell.classList.add("current");
+
+      grid.appendChild(cell);
+    }
+
+    let r=document.createElement("div");
+    r.className="axis";
+    if(currentPos && verticalAxis[y]===currentV) r.classList.add("axis-current");
+    else if(final && verticalAxis[y]===vNum) r.classList.add("final-vertical");
+    r.textContent=verticalAxis[y];
+    grid.appendChild(r);
+  }
+
+  grid.appendChild(document.createElement("div"));
+  horizontalAxis.forEach(n=>{
+    let d=document.createElement("div");
+    d.className="axis";
+    if(currentPos && n===currentH) d.classList.add("axis-current");
+    else if(final && n===hNum) d.classList.add("final-horizontal");
+    d.textContent=n;
+    grid.appendChild(d);
+  });
+  grid.appendChild(document.createElement("div"));
+}
+
+// ===== アニメ =====
+function animate(path, final, vNum, hNum, onComplete){
+  let step=0;
+
+  function loop(){
+    if(step>=path.length){
+
+      createGrid(path, null, vNum, hNum, final);
+
+      setTimeout(()=>{
+        createGrid(path, final, vNum, hNum);
+        setTimeout(onComplete,300);
+      },300);
+
+      return;
+    }
+
+    createGrid(path.slice(0,step+1), null, vNum, hNum, path[step]);
+    step++;
+    setTimeout(loop,120);
+  }
+
+  loop();
+}
+
+// ===== 実行 =====
+function run(){
+  const data=calculateFortune();
+  if(!data) return;
+
+  const resultDiv=document.getElementById("result");
+  resultDiv.style.opacity=0;
+  resultDiv.innerHTML="";
+
+  const path=move(findPos(99), getDigits());
+  const final=path[path.length-1];
+
+  animate(path, final, data.vertical, data.horizontal, ()=>{
+    resultDiv.innerHTML=`
+      ${getVerticalMessage(data.vertical)}<br><br>
+      ${getHorizontalMessage(data.horizontal)}
+    `;
+    resultDiv.style.opacity=1;
+  });
+}
+
+// 初期表示
+createGrid([], null, null, null);
+
+</script>
+
+</body>
+</html>
