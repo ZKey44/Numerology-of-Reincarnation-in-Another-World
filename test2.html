@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>異世界転生数秘術</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #3a3a6a);
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#lead {
+  max-width: 520px;
+  margin: 10px auto 20px;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.btn {
+  margin-top: 15px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-x {
+  background: linear-gradient(135deg, #cc66ff, #8844ff);
+  color: white;
+}
+
+#grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 2px;
+  max-width: 520px;
+  width: 100%;
+}
+
+.cell, .axis {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #222;
+  font-size: 12px;
+}
+
+.axis { color: #aaa; }
+
+.start { background: red; }
+.passed { background: rgba(255,255,255,0.1); }
+.current { background: #cc66ff; transform: scale(1.2); }
+.final-cross { background: gold; color: black; }
+
+.final-vertical { background: #3399ff; }
+.final-horizontal { background: #33cc66; }
+
+.axis-current { background: #cc66ff; color: white; }
+
+#result {
+  margin-top: 30px;
+  text-align: center;
+  opacity: 0;
+  transition: 0.5s;
+}
+</style>
+</head>
+
+<body>
+
+<h2>異世界転生数秘術</h2>
+
+<div id="lead">
+生年月日を入力してください
+</div>
+
+<input type="date" id="birthdate">
+<button class="btn btn-x" onclick="run()">占う</button>
+
+<div id="grid"></div>
+<div id="result"></div>
+
+<script>
+
+const gridData = [
+  [94,40,85,31,76,22,67,13,58,4,49],
+  [39,84,30,75,21,66,12,57,3,48,93],
+  [83,29,74,20,65,11,56,2,47,92,38],
+  [28,73,19,64,10,55,1,46,91,37,82],
+  [72,18,63,9,54,99,45,90,36,81,27],
+  [17,62,8,53,98,44,89,35,80,26,71],
+  [61,7,52,97,43,88,34,79,25,70,16],
+  [6,51,96,42,87,33,78,24,69,15,60],
+  [50,95,41,86,32,77,23,68,14,59,5]
+];
+
+const verticalAxis = [4,3,2,1,9,8,7,6,5];
+const horizontalAxis = [6,7,8,9,10,11,1,2,3,4,5];
+
+function modFix(v,m){ return v%m===0?m:v%m; }
+
+function calculateFortune(){
+  const val=document.getElementById("birthdate").value;
+  if(!val) return null;
+  const [y,m,d]=val.split("-").map(Number);
+  const t=y+m+d;
+  return {
+    vertical:modFix(t,9),
+    horizontal:modFix(t,11),
+    cross:modFix(t,99)
+  };
+}
+
+function getDigits(){
+  const val=document.getElementById("birthdate").value;
+  return val.replace(/-/g,"").split("").map(Number).reverse();
+}
+
+function findPos(n){
+  for(let y=0;y<9;y++){
+    for(let x=0;x<11;x++){
+      if(gridData[y][x]===n) return {x,y};
+    }
+  }
+}
+
+function move(start,digits){
+  let path=[],x=start.x,y=start.y;
+  path.push({x,y});
+  digits.forEach((num,i)=>{
+    for(let j=0;j<num;j++){
+      if(i%2===0){ x=(x+1)%11; y=(y-1+9)%9; }
+      else{ x=(x-1+11)%11; y=(y-1+9)%9; }
+      path.push({x,y});
+    }
+  });
+  return path;
+}
+
+function createGrid(path,final,vNum,hNum,currentPos){
+  const grid=document.getElementById("grid");
+  grid.innerHTML="";
+  const set=new Set(path.map(p=>`${p.x},${p.y}`));
+
+  grid.appendChild(document.createElement("div"));
+
+  horizontalAxis.forEach(n=>{
+    let d=document.createElement("div");
+    d.className="axis";
+    if(currentPos && n===horizontalAxis[currentPos.x]) d.classList.add("axis-current");
+    else if(final && n===hNum) d.classList.add("final-horizontal");
+    d.textContent=n;
+    grid.appendChild(d);
+  });
+
+  grid.appendChild(document.createElement("div"));
+
+  for(let y=0;y<9;y++){
+    let l=document.createElement("div");
+    l.className="axis";
+    if(currentPos && verticalAxis[y]===verticalAxis[currentPos.y]) l.classList.add("axis-current");
+    else if(final && verticalAxis[y]===vNum) l.classList.add("final-vertical");
+    l.textContent=verticalAxis[y];
+    grid.appendChild(l);
+
+    for(let x=0;x<11;x++){
+      let num=gridData[y][x];
+      let c=document.createElement("div");
+      c.className="cell";
+      c.textContent=num;
+
+      if(num===99) c.classList.add("start");
+      if(set.has(`${x},${y}`)) c.classList.add("passed");
+      if(currentPos && currentPos.x===x && currentPos.y===y) c.classList.add("current");
+      if(final && final.x===x && final.y===y) c.classList.add("final-cross");
+
+      grid.appendChild(c);
+    }
+
+    let r=document.createElement("div");
+    r.className="axis";
+    r.textContent=verticalAxis[y];
+    grid.appendChild(r);
+  }
+}
+
+let lastResultText="";
+
+async function run(){
+  const data=calculateFortune();
+  const digits=getDigits();
+  if(!data){ alert("入力してください"); return; }
+
+  const path=move(findPos(99),digits);
+  const final=path[path.length-1];
+
+  for(let i=0;i<path.length;i++){
+    createGrid(path.slice(0,i+1),null,data.vertical,data.horizontal,path[i]);
+    await new Promise(r=>setTimeout(r,50));
+  }
+
+  createGrid(path,final,data.vertical,data.horizontal);
+
+  const text=`ヴァーチカル${data.vertical}\nホリゾンタル${data.horizontal}\nクロス${data.cross}`;
+  document.getElementById("result").innerHTML=text.replace(/\n/g,"<br>");
+  document.getElementById("result").style.opacity=1;
+
+  lastResultText=text;
+}
+
+createGrid([],null,9,11,null);
+
+</script>
+
+</body>
+</html>
