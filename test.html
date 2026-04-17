@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="異世界転生数秘術">
+<meta property="og:description" content="もう一人のあなたを導く、存在しない数秘術">
+<meta property="og:url" content="https://zkey44.github.io/numerology/">
+<meta property="og:image" content="https://zkey44.github.io/numerology/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="異世界転生数秘術">
+<meta name="twitter:description" content="もう一人のあなたを導く、存在しない数秘術">
+<meta name="twitter:image" content="https://zkey44.github.io/numerology/ogp.png">
+
+<title>異世界転生数秘術</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #3a3a6a);
+  color: white;
+  padding: 20px;
+
+  /* 中央揃え修正 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== リード文 ===== */
+#lead {
+  max-width: 520px;
+  margin: 10px auto 20px;
+  line-height: 1.8;
+  font-size: 14px;
+  opacity: 0.9;
+  text-align: center;
+}
+
+/* ===== 入力UI ===== */
+#form-area {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ===== 共通ボタン ===== */
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
+/* 色だけ分離 */
+.btn-x {
+  background: linear-gradient(135deg, #cc66ff, #8844ff);
+  color: white;
+}
+
+.btn-discord {
+  background: #5865F2;
+  color: white;
+}
+
+/* トグルボタン */
+#toggleBtn {
+  margin-top: 10px;
+  font-size: 12px;
+  background: transparent;
+  border: 1px solid #666;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+}
+
+#toggleBtn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* ===== グリッド ===== */
+#grid {
+  margin: 20px auto 0;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 2px;
+  width: 100%;
+  max-width: 520px;
+  justify-content: center;
+}
+
+.cell, .axis {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  font-size: clamp(10px, 2.5vw, 14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  line-height: 1;
+}
+
+.cell { background: #222; }
+.axis { background: #222; color: #aaa; }
+
+.start { background: #ff4444; }
+
+.passed {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.current {
+  background: #cc66ff;
+  transform: scale(1.15);
+  z-index: 2;
+}
+
+.axis-current {
+  background: #cc66ff;
+  color: white;
+}
+
+.final-cross {
+  background: gold;
+  color: black;
+}
+
+.final-vertical {
+  background: #3399ff;
+  font-weight: bold;
+}
+
+.final-horizontal {
+  background: #33cc66;
+  font-weight: bold;
+}
+
+#result {
+  margin-top: 40px;
+  opacity: 0;
+  transition: opacity 0.6s;
+  line-height: 1.8;
+  text-align: center;
+}
+
+#shareBtn {
+  display: none;
+}
+
+/* ===== Discord ===== */
+#discord {
+  display: none;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<h2>異世界転生数秘術</h2>
+
+<div id="lead">
+生年月日をもとに、<br>
+あなたと同じ性質を持つ<br>
+“もう一人のあなた”を<br>
+異世界へと転生させます。<br><br>
+これは、“もう一人のあなた”を導く、<br>
+存在しない数秘術――
+</div>
+
+<div id="form-area">
+  <input type="date" id="birthdate">
+  <button class="btn btn-x" onclick="run()">占う</button>
+</div>
+
+<button id="toggleBtn" onclick="toggleForm()">入力欄を隠す</button>
+
+<div id="grid"></div>
+
+<div id="result"></div>
+
+<div id="share-area">
+  <button id="shareBtn" class="btn btn-x" onclick="shareResult()">Xに投稿</button>
+</div>
+
+<div id="discord">
+  <p>より詳しい鑑定結果はDiscordで公開中</p>
+  <a href="https://discord.gg/SEyaRxq9yu"
+     target="_blank"
+     rel="noopener noreferrer"
+     class="btn btn-discord">
+    Discordに参加する
+  </a>
+</div>
+
+<script>
+
+// フォーム切替
+function toggleForm(){
+  const form = document.getElementById("form-area");
+  const btn = document.getElementById("toggleBtn");
+
+  if(form.style.display === "none"){
+    form.style.display = "block";
+    btn.textContent = "入力欄を隠す";
+  }else{
+    form.style.display = "none";
+    btn.textContent = "入力欄を表示（再入力）";
+  }
+}
+
+// データ
+const gridData = [
+  [94,40,85,31,76,22,67,13,58,4,49],
+  [39,84,30,75,21,66,12,57,3,48,93],
+  [83,29,74,20,65,11,56,2,47,92,38],
+  [28,73,19,64,10,55,1,46,91,37,82],
+  [72,18,63,9,54,99,45,90,36,81,27],
+  [17,62,8,53,98,44,89,35,80,26,71],
+  [61,7,52,97,43,88,34,79,25,70,16],
+  [6,51,96,42,87,33,78,24,69,15,60],
+  [50,95,41,86,32,77,23,68,14,59,5]
+];
+
+const verticalAxis = [4,3,2,1,9,8,7,6,5];
+const horizontalAxis = [6,7,8,9,10,11,1,2,3,4,5];
+
+const verticalMap = {1:"戦士",2:"僧侶",3:"盗賊",4:"騎士",5:"忍者",6:"狩人",7:"魔術師",8:"侍",9:"放浪者"};
+
+const horizontalMap = {
+  1:"白き天空の領域ケテル",2:"知恵と創造の領域コクマー",3:"黒き凍土の領域ビナー",
+  4:"慈悲と豊穣の領域ケセド",5:"赤き焦土の領域ゲブラー",6:"美と調和の領域ティファレト",
+  7:"翠き砂海の領域ネツァク",8:"栄光と交易の領域ホド",9:"深き湖畔の領域イェソド",
+  10:"王国と繁栄の領域マルクト",11:"知識と深淵の領域ダアト"
+};
+
+// 計算
+function modFix(v,m){ return v%m===0?m:v%m; }
+
+function calculateFortune(){
+  const input=document.getElementById("birthdate").value;
+  if(!input) return null;
+
+  const [y,m,d]=input.split("-").map(Number);
+  const total=y+m+d;
+
+  return {
+    vertical:modFix(total,9),
+    horizontal:modFix(total,11),
+    cross:modFix(total,99)
+  };
+}
+
+function getDigits(){
+  const val = document.getElementById("birthdate").value;
+  if(!val) return [];
+  return val.replaceAll("-","").split("").map(Number).filter(n=>!isNaN(n)).reverse();
+}
+
+function findPos(n){
+  for(let y=0;y<9;y++){
+    for(let x=0;x<11;x++){
+      if(gridData[y][x]===n) return {x,y};
+    }
+  }
+  throw new Error("Not found");
+}
+
+function move(start,digits){
+  let path=[], x=start.x,y=start.y;
+  path.push({x,y});
+  digits.forEach((num,i)=>{
+    for(let j=0;j<num;j++){
+      if(i%2===0){ x=(x+1)%11; y=(y-1+9)%9; }
+      else{ x=(x-1+11)%11; y=(y-1+9)%9; }
+      path.push({x,y});
+    }
+  });
+  return path;
+}
+
+// 描画
+function createGrid(path, final, vNum, hNum, currentPos){
+  const grid=document.getElementById("grid");
+  grid.innerHTML="";
+
+  const pathSet = new Set(path.map(p=>`${p.x},${p.y}`));
+
+  let currentV = currentPos ? verticalAxis[currentPos.y] : null;
+  let currentH = currentPos ? horizontalAxis[currentPos.x] : null;
+
+  grid.appendChild(document.createElement("div"));
+  horizontalAxis.forEach(n=>{
+    let d=document.createElement("div");
+    d.className="axis";
+    if(currentPos && n===currentH) d.classList.add("axis-current");
+    else if(final && n===hNum) d.classList.add("final-horizontal");
+    d.textContent=n;
+    grid.appendChild(d);
+  });
+  grid.appendChild(document.createElement("div"));
+
+  for(let y=0;y<9;y++){
+    let l=document.createElement("div");
+    l.className="axis";
+    l.textContent=verticalAxis[y];
+    grid.appendChild(l);
+
+    for(let x=0;x<11;x++){
+      let num=gridData[y][x];
+      let cell=document.createElement("div");
+      cell.className="cell";
+      cell.textContent=num.toString().padStart(2,"0");
+
+      if(pathSet.has(`${x},${y}`)) cell.classList.add("passed");
+      if(num===99 && !currentPos) cell.classList.add("start");
+      if(final && final.x===x && final.y===y) cell.classList.add("final-cross");
+      if(currentPos && currentPos.x===x && currentPos.y===y) cell.classList.add("current");
+
+      grid.appendChild(cell);
+    }
+
+    let r=document.createElement("div");
+    r.className="axis";
+    r.textContent=verticalAxis[y];
+    grid.appendChild(r);
+  }
+
+  grid.appendChild(document.createElement("div"));
+  horizontalAxis.forEach(n=>{
+    let d=document.createElement("div");
+    d.className="axis";
+    d.textContent=n;
+    grid.appendChild(d);
+  });
+  grid.appendChild(document.createElement("div"));
+}
+
+// 実行
+let lastResultText = "";
+
+function run(){
+  const data=calculateFortune();
+  const digits=getDigits();
+  if(!data || digits.length===0){
+    alert("生年月日を入力してください");
+    return;
+  }
+
+  const path=move(findPos(99), digits);
+  const final=path[path.length-1];
+
+  document.getElementById("form-area").style.display="none";
+
+  createGrid(path, final, data.vertical, data.horizontal);
+
+  const date = document.getElementById("birthdate").value;
+
+  const text =
+`入力：${date}
+
+ヴァーチカルナンバー${data.vertical}
+「${verticalMap[data.vertical]}」
+
+ホリゾンタルナンバー${data.horizontal}
+「${horizontalMap[data.horizontal]}」
+
+クロスナンバー${data.cross}`;
+
+  document.getElementById("result").innerHTML = text.replace(/\n/g,"<br>");
+  document.getElementById("result").style.opacity = 1;
+
+  lastResultText = text;
+
+  document.getElementById("shareBtn").style.display = "inline-block";
+  document.getElementById("discord").style.display = "block";
+}
+
+function shareResult(){
+  const text = encodeURIComponent(lastResultText);
+  window.open("https://twitter.com/intent/tweet?text=" + text, "_blank");
+}
+
+// 初期表示
+createGrid([], null, 9, 11, findPos(99));
+
+</script>
+
+</body>
+  </html>
