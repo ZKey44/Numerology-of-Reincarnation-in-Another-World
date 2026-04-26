@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta property="og:title" content="異世界転生数秘術">
+<meta property="og:description" content="もう一人のあなたを導く、存在しない数秘術">
+<meta property="og:url" content="https://zkey44.github.io/numerology/?v=1">
+<meta property="og:image" content="https://zkey44.github.io/numerology/ogp-v1.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="異世界転生数秘術">
+<meta name="twitter:description" content="もう一人のあなたを導く、存在しない数秘術">
+<meta name="twitter:image" content="https://zkey44.github.io/numerology/ogp-v1.png">
+
+<title>異世界転生数秘術</title>
+<style>
+html {
+  background: #1e1e2f;
+}
+
+/* ===== ベース ===== */
+body {
+  font-family: sans-serif;
+  color: white;
+  text-align: center;
+  min-height: 100dvh;
+  padding: 20px;
+  box-sizing: border-box;
+
+  overflow-x: hidden;
+
+  position: relative;
+  z-index: 0;
+  background: transparent;
+  isolation: isolate;
+}
+
+/* ===== 背景レイヤー ===== */
+body::before {
+  content: "";
+  position: fixed;
+
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+
+  z-index: -1;
+
+  background:
+    radial-gradient(circle at 50% 30%, rgba(204,102,255,0.15), transparent 60%),
+    linear-gradient(135deg, #1e1e2f, #3a3a6a);
+
+  animation: bgMove 20s linear infinite;
+
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* ===== 背景アニメ ===== */
+@keyframes bgMove {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(-15px, -10px, 0) scale(1.03); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+/* ===== リード文 ===== */
+#lead {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #ddd;
+  letter-spacing: 0.05em;
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== フォーム ===== */
+#form-area {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  margin-left: 8px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(135deg, #cc66ff, #8844ff);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #cc66ff;
+}
+
+#toggleBtn {
+  margin-top: 10px;
+  font-size: 12px;
+  background: transparent;
+  border: 1px solid #666;
+}
+
+#toggleBtn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* ===== メイングリッド ===== */
+#grid {
+  margin: 20px auto 0;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 2px;
+  width: 100%;
+  max-width: 520px;
+}
+
+/* ===== 日運グリッド（追加） ===== */
+#dailyGrid {
+  margin: 20px auto 0;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 2px;
+  width: 100%;
+  max-width: 520px;
+}
+
+/* ===== 共通セル ===== */
+.cell, .axis {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  font-size: clamp(10px, 2.5vw, 14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.cell { background: #222; }
+.axis { background: #222; }
+
+.start { background: #ff4444; }
+
+.passed {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.current {
+  background: #cc66ff;
+  color: white;
+  transform: scale(1.15);
+  position: relative;
+  z-index: 2;
+}
+
+.axis-current {
+  background: #cc66ff;
+  color: white;
+}
+
+.final-cross {
+  background: gold;
+  color: black;
+  animation: glow 1s ease infinite alternate;
+}
+
+.final-vertical {
+  background: #3399ff;
+  color: white;
+  font-weight: bold;
+}
+
+.final-horizontal {
+  background: #33cc66;
+  color: white;
+  font-weight: bold;
+}
+
+/* ===== 発光演出 ===== */
+@keyframes glow {
+  from { box-shadow: 0 0 5px gold; }
+  to   { box-shadow: 0 0 20px gold; }
+}
+
+/* ===== 結果表示（共通） ===== */
+#result {
+  margin-top: 40px;
+  scroll-margin-top: 20px;
+  min-height: 140px;
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  transition: opacity 0.6s, transform 0.6s;
+  line-height: 1.8;
+}
+
+#result.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ===== 日運結果（追加） ===== */
+#dailyResult {
+  margin-top: 30px;
+  min-height: 120px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s, transform 0.6s;
+  line-height: 1.8;
+}
+
+#dailyResult.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== ボタン類 ===== */
+#shareBtn {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  display: none;
+}
+
+#discordBtn {
+  margin-top: 10px;
+  display: none;
+  background: #5865F2;
+}
+
+#discordInfo {
+  margin-top: 20px;
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<h2>異世界転生数秘術</h2>
+
+<!-- リード文 -->
+<div id="lead">
+  生年月日をもとに、<br>
+  あなたと同じ性質を持つ<br>
+  “もう一人のあなた”を<br>
+  異世界へと転生させます。<br><br>
+  これは、“もう一人のあなた”を導く、<br>
+  存在しない数秘術――
+</div>
+
+<!-- 生年月日入力 -->
+<div id="form-area">
+  <input type="date" id="birthdate">
+  <button onclick="run()">占う</button>
+</div>
+
+<button id="toggleBtn" onclick="toggleForm()">入力欄を隠す</button>
+
+<!-- メイングリッド -->
+<div id="grid"></div>
+
+<!-- 転生結果 -->
+<div id="result"></div>
+
+<!-- 転生共有 -->
+<button id="shareBtn" onclick="shareResult()">Xに投稿</button>
+
+<div id="discordInfo" style="display:none;">
+  この占いの詳細な鑑定結果は<br>
+  Discordサーバーで公開しています
+</div>
+
+<button id="discordBtn" onclick="openDiscord()">Discordに参加</button>
+
+
+<!-- ===== 日運セクション ===== -->
+<div id="daily-section" style="margin-top:50px; display:none;">
+
+  <h3>日運</h3>
+
+  <!-- 日運入力 -->
+  <div id="daily-form">
+    <input type="date" id="dailyDate">
+    <button onclick="runDaily()">日運を占う</button>
+  </div>
+
+  <!-- 日運グリッド -->
+  <div id="dailyGrid"></div>
+
+  <!-- 日運結果 -->
+  <div id="dailyResult"></div>
+
+  <!-- ★ 日運共有（追加） -->
+  <button id="dailyShareBtn" onclick="shareDaily()">Xに投稿</button>
+
+  <div id="dailyDiscordInfo" style="display:none;">
+    この日運の詳細な鑑定結果は<br>
+    Discordサーバーで公開しています
+  </div>
+
+  <button id="dailyDiscordBtn" onclick="openDiscord()">Discordに参加</button>
+
+</div>
+
+<script>
+
+// ===== フォーム切替 =====
+function toggleForm(){
+  const form = document.getElementById("form-area");
+  const btn = document.getElementById("toggleBtn");
+
+  if(form.style.display === "none"){
+    form.style.display = "block";
+    btn.textContent = "入力欄を隠す";
+  }else{
+    form.style.display = "none";
+    btn.textContent = "入力欄を表示";
+  }
+}
+
+// ===== データ =====
+const gridData = [
+  [94,40,85,31,76,22,67,13,58,4,49],
+  [39,84,30,75,21,66,12,57,3,48,93],
+  [83,29,74,20,65,11,56,2,47,92,38],
+  [28,73,19,64,10,55,1,46,91,37,82],
+  [72,18,63,9,54,99,45,90,36,81,27],
+  [17,62,8,53,98,44,89,35,80,26,71],
+  [61,7,52,97,43,88,34,79,25,70,16],
+  [6,51,96,42,87,33,78,24,69,15,60],
+  [50,95,41,86,32,77,23,68,14,59,5]
+];
+
+const verticalAxis = [4,3,2,1,9,8,7,6,5];
+const horizontalAxis = [6,7,8,9,10,0,1,2,3,4,5];
+
+// ===== マップ =====
+const verticalMap = {
+  1:"戦士",2:"僧侶",3:"盗賊",4:"騎士",5:"忍者",
+  6:"狩人",7:"魔術師",8:"侍",9:"放浪者"
+};
+
+const horizontalMap = {
+  0:"知識と深淵の領域ダアト",
+  1:"白き天空の領域ケテル",
+  2:"知恵と創造の領域コクマー",
+  3:"黒き凍土の領域ビナー",
+  4:"慈悲と豊穣の領域ケセド",
+  5:"赤き焦土の領域ゲブラー",
+  6:"美と調和の領域ティファレト",
+  7:"蒼き砂海の領域ネツァク",
+  8:"栄光と交易の領域ホド",
+  9:"深き湖畔の領域イェソド",
+  10:"王国と繁栄の領域マルクト"
+};
+
+// ===== 日運テキスト =====
+const dailyVerticalText = {
+  1:"戦いの気配が強まる日",
+  2:"癒しと支えが鍵となる日",
+  3:"機転と駆け引きが試される日",
+  4:"守りと責任が問われる日",
+  5:"影に潜む力が活きる日",
+  6:"狩りと集中が冴える日",
+  7:"知識と魔力が満ちる日",
+  8:"覚悟と一太刀が運命を変える日",
+  9:"流れに身を任せる日"
+};
+
+const dailyHorizontalText = {
+  0:"深淵が静かに呼びかける",
+  1:"天空の光に導かれる",
+  2:"創造の波に包まれる",
+  3:"凍てつく静寂に支配される",
+  4:"豊穣の加護が降り注ぐ",
+  5:"激しい力が揺らぐ",
+  6:"調和の流れが整う",
+  7:"砂海の運命が動き出す",
+  8:"交易と巡り合わせが交差する",
+  9:"深き水面が心を映す",
+  10:"現実と繁栄が結びつく"
+};
+
+// ===== 状態 =====
+let lastCrossPos = null;
+let dailyResultText = "";
+
+// ===== 計算 =====
+function modFix(v,m){ return v%m===0?m:v%m; }
+
+function mod11to0(v){
+  const r = modFix(v,11);
+  return r === 11 ? 0 : r;
+}
+
+function calculateFortune(dateStr){
+  const [y,m,d]=dateStr.split("-").map(Number);
+  const total=y+m+d;
+
+  return {
+    vertical:modFix(total,9),
+    horizontal:mod11to0(total),
+    cross:modFix(total,99)
+  };
+}
+
+function getDigitsFromDate(id){
+  const val = document.getElementById(id).value;
+  if(!val) return [];
+  return val.replaceAll("-","").split("").reverse().map(Number);
+}
+
+function findPos(n){
+  for(let y=0;y<9;y++){
+    for(let x=0;x<11;x++){
+      if(gridData[y][x]===n) return {x,y};
+    }
+  }
+  return null;
+}
+
+// ===== 移動 =====
+function move(start,digits){
+  if(!start) return [];
+
+  let path=[], x=start.x,y=start.y;
+  path.push({x,y});
+
+  digits.forEach((num,i)=>{
+    for(let j=0;j<num;j++){
+      if(i%2===0){
+        x=(x+1)%11;
+        y=(y-1+9)%9;
+      }else{
+        x=(x-1+11)%11;
+        y=(y-1+9)%9;
+      }
+      path.push({x,y});
+    }
+  });
+
+  return path;
+}
+
+// ===== グリッド描画 =====
+function createGrid(targetId, path, final, currentPos){
+  const grid=document.getElementById(targetId);
+  if(!grid) return;
+
+  grid.innerHTML="";
+
+  const currentV = currentPos ? verticalAxis[currentPos.y] : null;
+  const currentH = currentPos ? horizontalAxis[currentPos.x] : null;
+
+  grid.appendChild(document.createElement("div"));
+
+  horizontalAxis.forEach(n=>{
+    let d=document.createElement("div");
+    d.className="axis";
+
+    if(currentPos && n===currentH){
+      d.classList.add("axis-current");
+    }
+
+    d.textContent=n;
+    grid.appendChild(d);
+  });
+
+  grid.appendChild(document.createElement("div"));
+
+  for(let y=0;y<9;y++){
+    let l=document.createElement("div");
+    l.className="axis";
+
+    if(currentPos && verticalAxis[y]===currentV){
+      l.classList.add("axis-current");
+    }
+
+    l.textContent=verticalAxis[y];
+    grid.appendChild(l);
+
+    for(let x=0;x<11;x++){
+      let num=gridData[y][x];
+      let cell=document.createElement("div");
+      cell.className="cell";
+      cell.textContent=num.toString().padStart(2,"0");
+
+      if(path.length && path.some(p=>p.x===x && p.y===y)){
+        cell.classList.add("passed");
+      }
+
+      if(currentPos && currentPos.x===x && currentPos.y===y){
+        cell.classList.add("current");
+      }
+
+      if(final && final.x===x && final.y===y){
+        cell.classList.add("final-cross");
+      }
+
+      grid.appendChild(cell);
+    }
+
+    let r=document.createElement("div");
+    r.className="axis";
+
+    if(currentPos && verticalAxis[y]===currentV){
+      r.classList.add("axis-current");
+    }
+
+    r.textContent=verticalAxis[y];
+    grid.appendChild(r);
+  }
+
+  grid.appendChild(document.createElement("div"));
+
+  horizontalAxis.forEach(n=>{
+    let d=document.createElement("div");
+    d.className="axis";
+
+    if(currentPos && n===currentH){
+      d.classList.add("axis-current");
+    }
+
+    d.textContent=n;
+    grid.appendChild(d);
+  });
+
+  grid.appendChild(document.createElement("div"));
+}
+
+// ===== アニメ =====
+function animate(targetId, path, final, onComplete){
+  let step=0;
+
+  function loop(){
+    if(step>=path.length){
+      createGrid(targetId, path, final, final);
+      if(onComplete) onComplete();
+      return;
+    }
+
+    createGrid(targetId, path.slice(0,step+1), null, path[step]);
+    step++;
+    setTimeout(loop,90);
+  }
+
+  loop();
+}
+
+// ===== 転生 =====
+function run(){
+  const input=document.getElementById("birthdate").value;
+  if(!input) return;
+
+  const data=calculateFortune(input);
+  const start=findPos(99);
+  if(!start) return;
+
+  const path=move(start, getDigitsFromDate("birthdate"));
+  const final=path[path.length-1];
+
+  animate("grid", path, final, ()=>{
+    lastCrossPos = final;
+    document.getElementById("daily-section").style.display="block";
+  });
+}
+
+// ===== 日運 =====
+function runDaily(){
+  if(!lastCrossPos) return;
+
+  const input=document.getElementById("dailyDate").value;
+  if(!input) return;
+
+  const data=calculateFortune(input);
+  const path=move(lastCrossPos, getDigitsFromDate("dailyDate"));
+  const final=path[path.length-1];
+
+  animate("dailyGrid", path, final, ()=>{
+    const [y,m,d] = input.split("-");
+    const text =
+`${y}年${m}月${d}日
+もう一人のあなたは
+クロスナンバー${data.cross}に導かれ
+${dailyHorizontalText[data.horizontal]}
+${dailyVerticalText[data.vertical]}`;
+
+    document.getElementById("dailyResult").innerHTML = text.replace(/\n/g,"<br>");
+    dailyResultText = text;
+  });
+}
+
+// ===== 初期表示（軸を紫にする） =====
+const startPos = findPos(99);
+if(startPos){
+  createGrid("grid", [], null, startPos);
+}
+
+</script>
+  
+</body>
+</html>
