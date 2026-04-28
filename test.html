@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta property="og:title" content="異世界転生数秘術">
+<meta property="og:description" content="もう一人のあなたを導く、存在しない数秘術">
+<meta property="og:url" content="https://zkey44.github.io/numerology/?v=1">
+<meta property="og:image" content="https://zkey44.github.io/numerology/ogp-v1.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="異世界転生数秘術">
+<meta name="twitter:description" content="もう一人のあなたを導く、存在しない数秘術">
+<meta name="twitter:image" content="https://zkey44.github.io/numerology/ogp-v1.png">
+
+<title>異世界転生数秘術</title>
+
+<style>
+html {
+  background: #1e1e2f;
+}
+
+body {
+  font-family: sans-serif;
+  color: white;
+  text-align: center;
+  min-height: 100dvh;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 0;
+  background: transparent;
+  isolation: isolate;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(204,102,255,0.15), transparent 60%),
+    linear-gradient(135deg, #1e1e2f, #3a3a6a);
+  animation: bgMove 20s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@keyframes bgMove {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(-15px, -10px, 0) scale(1.03); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+
+#lead {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #ddd;
+  letter-spacing: 0.05em;
+}
+
+#form-area {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  margin-left: 8px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(135deg, #cc66ff, #8844ff);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #cc66ff;
+}
+
+#toggleBtn {
+  margin-top: 10px;
+  font-size: 12px;
+  background: transparent;
+  border: 1px solid #666;
+}
+
+#toggleBtn:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+#grid {
+  margin: 20px auto 0;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 2px;
+  width: 100%;
+  max-width: 520px;
+}
+
+.cell, .axis {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  font-size: clamp(10px, 2.5vw, 14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.cell { background: #222; }
+.axis { background: #222; }
+
+.start {
+  background: #cc66ff;
+  color: white;
+  animation: startGlow 1s ease infinite alternate;
+}
+
+@keyframes startGlow {
+  from { box-shadow: 0 0 5px #cc66ff; }
+  to   { box-shadow: 0 0 20px #cc66ff; }
+}
+
+.passed {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.current {
+  background: #cc66ff;
+  color: white;
+  transform: scale(1.15);
+  position: relative;
+  z-index: 2;
+}
+
+.axis-current {
+  background: #cc66ff;
+  color: white;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 5px gold; }
+  to   { box-shadow: 0 0 20px gold; }
+}
+
+.final-cross {
+  background: gold;
+  color: black;
+  animation: glow 1s ease infinite alternate;
+}
+
+.daily-start {
+  background: #ff8800;
+  color: white;
+  font-weight: bold;
+}
+
+.daily-start-finished {
+  background: gold;
+  color: white;
+  animation: dailyGlow 1s ease infinite alternate;
+}
+
+.final-vertical {
+  background: #3399ff;
+  color: white;
+  font-weight: bold;
+}
+
+.final-horizontal {
+  background: #33cc66;
+  color: white;
+  font-weight: bold;
+}
+
+/* ===== 日運専用スタイル ===== */
+@keyframes dailyGlow {
+  from { box-shadow: 0 0 5px #ff8800; }
+  to   { box-shadow: 0 0 20px #ff8800; }
+}
+
+.daily-cross {
+  background: gold;
+  color: black;
+  animation: glow 1s ease infinite alternate;
+}
+
+.daily-passed {
+  background: rgba(255, 153, 68, 0.12);
+  border: 1px solid rgba(255, 153, 68, 0.2);
+}
+
+.daily-current {
+  background: #ff8800;
+  color: white;
+  transform: scale(1.15);
+  position: relative;
+  z-index: 2;
+}
+
+.daily-axis-current {
+  background: #ff8800;
+  color: white;
+}
+
+.daily-final-vertical {
+  background: #ff8800;
+  color: white;
+  font-weight: bold;
+}
+
+.daily-final-horizontal {
+  background: #ff8800;
+  color: white;
+  font-weight: bold;
+}
+
+/* ===== セパレーター ===== */
+.section-divider {
+  margin: 30px auto;
+  max-width: 520px;
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.section-title {
+  font-size: 13px;
+  color: #aaa;
+  letter-spacing: 0.1em;
+  margin: 20px 0 6px;
+}
+
+#result.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+#result {
+  margin-top: 40px;
+  scroll-margin-top: 20px;
+  min-height: 140px;
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  transition: opacity 0.6s, transform 0.6s;
+  line-height: 1.8;
+}
+
+/* ===== 日運エリア ===== */
+#daily-area {
+  display: none;
+  margin-top: 10px;
+}
+
+#daily-grid {
+  margin: 20px auto 0;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  gap: 2px;
+  width: 100%;
+  max-width: 520px;
+}
+
+#daily-result.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+#daily-result {
+  margin-top: 40px;
+  scroll-margin-top: 20px;
+  min-height: 140px;
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  transition: opacity 0.6s, transform 0.6s;
+  line-height: 1.8;
+}
+
+#dailyBtn {
+  margin-top: 16px;
+  display: none;
+  background: linear-gradient(135deg, #ff9944, #cc5500);
+}
+
+#dailyBtn:hover {
+  box-shadow: 0 0 10px #ff9944;
+}
+
+#shareBtn {
+  margin-top: 24px;
+  margin-bottom: 0;
+  display: none;
+}
+
+#discordBtn {
+  margin-top: 12px;
+  display: none;
+  background: #5865F2;
+}
+
+#discordInfo {
+  margin-top: 24px;
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<h2>異世界転生数秘術</h2>
+
+<div id="lead">
+  生年月日をもとに、<br>
+  あなたと同じ性質を持つ<br>
+  "もう一人のあなた"を<br>
+  異世界へと転生させます。<br><br>
+  これは、"もう一人のあなた"を導く、<br>
+  存在しない数秘術――
+</div>
+
+<div id="form-area">
+  <input type="date" id="birthdate">
+  <button onclick="run()">占う</button>
+</div>
+
+<button id="toggleBtn" onclick="toggleForm()">入力欄を隠す</button>
+
+<div class="section-title" id="main-grid-label">― 転生の軌跡 ―</div>
+<div id="grid"></div>
+<div id="result"></div>
+
+<button id="shareBtn" onclick="shareResult()">Xに投稿</button>
+<button id="dailyBtn" onclick="runDaily()">今日の日運を見る</button>
+
+<div id="discordInfo" style="display:none;">
+  この占いの詳細な鑑定結果は<br>
+  Discordサーバーで公開しています
+</div>
+<button id="discordBtn" onclick="openDiscord()" style="background: linear-gradient(135deg, #7289DA, #5865F2);">Discordに参加</button>
+
+<!-- ===== 日運エリア ===== -->
+<div id="daily-area">
+  <hr class="section-divider">
+  <div class="section-title">― 今日の物語 ―</div>
+  <div id="daily-grid"></div>
+  <div id="daily-result"></div>
+  <button id="dailyShareBtn" onclick="shareDailyResult()" style="display:none; margin-top:24px;">Xに投稿</button>
+  <div id="dailyDiscordInfo" style="display:none; margin-top:24px; font-size:13px; color:#ccc; line-height:1.6;">
+    この占いの詳細な鑑定結果は<br>
+    Discordサーバーで公開しています
+  </div>
+  <button id="dailyDiscordBtn" onclick="openDiscord()" style="display:none; margin-top:12px; background: linear-gradient(135deg, #7289DA, #5865F2);">Discordに参加</button>
+</div>
+
+<script>
+
+// ===== フォーム切替 =====
+function toggleForm(){
+  const form = document.getElementById("form-area");
+  const btn = document.getElementById("toggleBtn");
+  if(form.style.display === "none"){
+    form.style.display = "block";
+    btn.textContent = "入力欄を隠す";
+  }else{
+    form.style.display = "none";
+    btn.textContent = "入力欄を表示";
+  }
+}
+
+// ===== データ =====
+const gridData = [
+  [94,40,85,31,76,22,67,13,58,4,49],
+  [39,84,30,75,21,66,12,57,3,48,93],
+  [83,29,74,20,65,11,56,2,47,92,38],
+  [28,73,19,64,10,55,1,46,91,37,82],
+  [72,18,63,9,54,99,45,90,36,81,27],
+  [17,62,8,53,98,44,89,35,80,26,71],
+  [61,7,52,97,43,88,34,79,25,70,16],
+  [6,51,96,42,87,33,78,24,69,15,60],
+  [50,95,41,86,32,77,23,68,14,59,5]
+];
+
+const verticalAxis = [4,3,2,1,9,8,7,6,5];
+const horizontalAxis = [6,7,8,9,10,0,1,2,3,4,5];
+
+const verticalMap = {
+  1:"戦士",
+  2:"僧侶",
+  3:"盗賊",
+  4:"騎士",
+  5:"忍者",
+  6:"狩人",
+  7:"魔術師",
+  8:"侍",
+  9:"放浪者",
+};
+
+const verticalDesc = {
+  1:"剣一本で道を切り拓く、前線の体現者。独立独歩の意志が宿る。",
+  2:"仲間の傷を癒し、祈りで奇跡を呼ぶ聖職者。協調と受容の心を持つ。",
+  3:"影に潜み、鍵を開け、情報を盗む技巧の使い手。変化と機転が武器だ。",
+  4:"鎧に身を包み、仲間を守り抜く盾の担い手。安定と忍耐が力の源。",
+  5:"気配を消し、嵐のように現れ消える暗殺者。変化と自由が本質だ。",
+  6:"森と荒野を駆け、獲物を仕留める孤高の追跡者。自然と本能に従う。",
+  7:"古の呪文を操り、現実を書き換える知の探求者。神秘と孤独が糧だ。",
+  8:"刀一振りで戦場を制する剛の者。力と名誉に生き、義を貫く。",
+  9:"世界を渡り歩き、どこにも属さない自由の体現者。完成と解放が宿命だ。",
+};
+
+const horizontalMap = {
+  0:"知識と深淵の領域ダアト",
+  1:"白き天空の領域ケテル",
+  2:"知恵と創造の領域コクマー",
+  3:"黒き凍土の領域ビナー",
+  4:"慈悲と豊穣の領域ケセド",
+  5:"赤き焦土の領域ゲブラー",
+  6:"美と調和の領域ティファレト",
+  7:"蒼き砂海の領域ネツァク",
+  8:"栄光と交易の領域ホド",
+  9:"深き湖畔の領域イェソド",
+  10:"王国と繁栄の領域マルクト",
+};
+
+const horizontalDesc = {
+  0:"光すら届かぬ深淵に浮かぶ、無限の虚空。全ての知が眠る禁断の領域。",
+  1:"果てなき白銀の天空に広がる聖域。静寂と純粋な光に満ちた頂。",
+  2:"無数の閃光が走る黄金色の創造の間。新たな叡智が生まれ続ける霊感の地。",
+  3:"永久凍土が広がる漆黒の大地。厳しい冬と沈黙が支配する忍耐の地。",
+  4:"豊穣な緑と清らかな川が流れる楽園。恵みと慈悲が溢れる安らぎの地。",
+  5:"赤く燃えた大地と黒煙が空を覆う焦土。試練と力が渦巻く激動の戦場。",
+  6:"黄金色の光が満ちる美しき均衡の都。調和と美があらゆる場所に宿る聖地。",
+  7:"青く輝く砂が広がる果てなき砂漠の海。感情と欲望が風のように揺れ動く地。",
+  8:"煌めく市場と交易路が広がる繁栄の街。知識と情報が行き交う栄光の中心地。",
+  9:"深い湖が静かに広がる神秘の岸辺。夢と無意識が水面に映し出される幻の地。",
+  10:"広大な平野に王城が聳える繁栄の王国。現実と結実が満ちる豊かな物質界。",
+};
+
+
+// ===== クロスナンバー固有能力（1〜99） =====
+const crossMap = {
+  1: { title:"慈雨の剣", body:"振るうたびに傷ついた者を癒す剣。斬ることと救うことが同じ意味を持つ。" },
+  2: { title:"寄り添いの祈り", body:"個の魂の痛みを感じ取り、その者だけへの奇跡を呼ぶ祈り。" },
+  3: { title:"王の仮面", body:"どんな権力者にも成り代われる仮面。真の王の威厳を纏う。" },
+  4: { title:"無垢の盾", body:"いかなる穢れも弾く純白の盾。持つ者の魂も清めていく。" },
+  5: { title:"静寂の刃", body:"斬った痕跡すら残さない刃。存在を消しながら平和をもたらす。" },
+  6: { title:"守護の矢", body:"射た矢は必ず仲間を守る軌道を描く。信念が弓弦に宿る。" },
+  7: { title:"全視の魔眼", body:"全てを見通す眼。隠されたものも、遠い未来も映し出す。" },
+  8: { title:"無双の太刀", body:"比類なき強大さを宿した太刀。一振りで戦場の空気が変わる。" },
+  9: { title:"覇道の足跡", body:"踏んだ大地が全て自らの版図となる。放浪の先に覇権が宿る。" },
+  10: { title:"孤高の剣閃", body:"いかなる高みにも届く剣技。誰も追いつけない卓越さを持つ。" },
+  11: { title:"創世の奇跡", body:"無から祈りで物を生み出す力。存在しないものを存在させる。" },
+  12: { title:"変化の鍵", body:"どんな錠前も開き、形を変える鍵。可能性の扉を無限に持つ。" },
+  13: { title:"形成の槍", body:"突いた先に新たな形が生まれる槍。世界を造形する力を宿す。" },
+  14: { title:"赦しの忍術", body:"敵の過ちをなかったことにする術。赦すことで縛りを解く。" },
+  15: { title:"服従の弓", body:"矢を放てば獲物は逆らえなくなる。自然の摂理を従わせる弓。" },
+  16: { title:"尽きぬ魔力", body:"いくら使っても枯渇しない魔力の泉。惜しみなく力を与え続ける。" },
+  17: { title:"豊饒の刀", body:"斬った大地から作物が芽吹く刀。糧を生み出す剛の一振り。" },
+  18: { title:"解錠の呪文", body:"どんな封印も解き放つ呪文。真理の扉を開く知の力を持つ。" },
+  19: { title:"全知の暗号", body:"読んだ者に全ての情報が流れ込む暗号術。知識に限界がない。" },
+  20: { title:"封印の印", body:"触れたものの力を封じる印。過剰な力を収め均衡を保つ。" },
+  21: { title:"施しの呪符", body:"持つ者に豊かさを与え続ける呪符。惜しみなく力が広がる。" },
+  22: { title:"重力の槍", body:"敵を大地に縫い付ける槍。高低を自在に操る戦場の支配者。" },
+  23: { title:"飛翔の刃", body:"使う者を高みへと押し上げる刃。その一撃が名誉を引き上げる。" },
+  24: { title:"栄誉の矢筒", body:"放つ矢が的を名誉の象徴へと変える。射た者に栄光が宿る。" },
+  25: { title:"屈辱の霧", body:"敵の慢心を砕く霧を放つ術。誇りを崩し、隙を生み出す。" },
+  26: { title:"千里の耳", body:"どんな遠くの声も聞き取る感覚。戦場の全ての音が届く。" },
+  27: { title:"霊視の瞳", body:"隠れたもの、嘘、真実を全て映す瞳。見逃すことがない。" },
+  28: { title:"裁きの鎧", body:"身に纏えば公正な判断が下せる鎧。揺るぎない裁定を体現する。" },
+  29: { title:"公正の刃", body:"不正に対してのみ輝きを増す刃。正義の体現者だけが扱える。" },
+  30: { title:"細やかな術", body:"気づかれずに傷を癒す繊細な術。見えない優しさが奇跡を生む。" },
+  31: { title:"精通の書", body:"一度見たことを永遠に記憶する能力。全ての情報が武器になる。" },
+  32: { title:"寛恕の忍衣", body:"着た者の罪を猶予に変える忍衣。赦しの気配が敵を惑わす。" },
+  33: { title:"荘厳の矢", body:"放てば大地が震える荘厳な矢。その偉大さが戦場を圧倒する。" },
+  34: { title:"包容の法衣", body:"あらゆる者を受け入れる広大な法衣。寛容さが力の源になる。" },
+  35: { title:"倍返しの太刀", body:"受けた善意を倍にして返す太刀。義の行いが力として戻る。" },
+  36: { title:"高みの足跡", body:"踏んだ場所が聖地となる歩み。放浪の道が崇高な道になる。" },
+  37: { title:"圧倒の一閃", body:"振るうだけで周囲の全てが霞む一閃。比類なき偉大さが宿る。" },
+  38: { title:"守護の霊眼", body:"仲間全員を常に見守る霊的な眼。知識と守護が同時に働く。" },
+  39: { title:"糧の呪文", body:"詠唱するだけで仲間の体力が満たされる。尽きない滋養を与える。" },
+  40: { title:"充足の鎧", body:"身に纏えば全ての必要が満たされる鎧。欠けるものが消える。" },
+  41: { title:"崇高の術", body:"使うたびに術者の格が上がる秘術。慈悲と栄光が力となる。" },
+  42: { title:"高貴の弓", body:"放つ矢が高貴さを纏う弓。その善意は測り知れない深さを持つ。" },
+  43: { title:"全監の魔眼", body:"全ての状況を同時に把握する魔眼。いかなる変化も見逃さない。" },
+  44: { title:"応答の太刀", body:"仲間の危機に必ず応じる太刀。信頼に応える剣が光を放つ。" },
+  45: { title:"遍満の歩法", body:"どこにでも瞬時に現れる歩法。広大な恵みが全域に届く。" },
+  46: { title:"英知の剣", body:"状況を瞬時に読み最適な一撃を繰り出す。正義と英知が宿る。" },
+  47: { title:"愛護の祈り", body:"仲間を愛でる祈りが奇跡を生む。服従する者への慈善が力に。" },
+  48: { title:"栄誉の暗器", body:"使うたびに周囲の賞賛が高まる暗器。比類なき偉大さが讃えられる。" },
+  49: { title:"蘇生の盾", body:"倒れた者を立ち上がらせる力を持つ盾。復活の力が宿っている。" },
+  50: { title:"証言の刃", body:"斬った証拠を永遠に記憶する刃。真実の証人として機能する。" },
+  51: { title:"真理の矢", body:"嘘に当たると消滅する矢。真実のみを貫通し、疑念を晴らす。" },
+  52: { title:"委託の法衣", body:"全ての責任を引き受ける覚悟の法衣。諸事を一身に担う力。" },
+  53: { title:"絶対の太刀", body:"いかなる防御も貫く絶対の力。最も強大な一撃を放つ太刀。" },
+  54: { title:"無尽の足跡", body:"踏み続ける限り力が尽きない歩み。いかなる旅も完遂できる。" },
+  55: { title:"企画の剣", body:"戦いの全体像を把握し最善手を実行する。対処と企画の剣。" },
+  56: { title:"賞讃の祈り", body:"詠唱するたびに神聖な光が満ちる祈り。真の賞讃に値する力。" },
+  57: { title:"計量の暗器", body:"敵の力を正確に測定して最適な攻撃を選ぶ。精密な計量の技。" },
+  58: { title:"創始の盾", body:"存在の始まりを宿す盾。守護することで新たな何かが誕生する。" },
+  59: { title:"再生の術", body:"壊れたものを元に戻す忍術。全てを還す力が手の中にある。" },
+  60: { title:"生命の矢", body:"射た者に生きる力を与える矢。倒れた仲間を復活させる。" },
+  61: { title:"死の魔眼", body:"見つめた相手の力を消滅させる魔眼。破壊の意志が宿る瞳。" },
+  62: { title:"永生の太刀", body:"折れることも錆びることもない永遠の太刀。死も消滅も知らない。" },
+  63: { title:"自存の足跡", body:"誰にも頼らずに全てを完結させる歩み。自存の力が宿る道。" },
+  64: { title:"知覚の剣", body:"隠された宝や真実を見出す剣。豊かさを発見する力が宿る。" },
+  65: { title:"栄光の祈り", body:"詠唱する度に術者の格が高まる祈り。高貴さと栄光が増す。" },
+  66: { title:"唯一の鍵", body:"この世に一つだけ存在する唯一の鍵。完璧さが一身に宿る。" },
+  67: { title:"異形の盾", body:"他の何にも似つかない独自の形の盾。比類なき防御を誇る。" },
+  68: { title:"依拠の刃", body:"全てが頼る究極の刃。存在するだけで仲間の支えとなる。" },
+  69: { title:"全能の矢", body:"放つたびに最も適切な場所に着弾する矢。誤りのない全能の技。" },
+  70: { title:"無謬の魔陣", body:"展開すると一切の誤りが消える魔陣。完全な能力が発揮される。" },
+  71: { title:"先手の太刀", body:"誰よりも先に動く太刀。先立たせる力が速さを超越させる。" },
+  72: { title:"遅滞の足跡", body:"踏んだ場所の時間が遅くなる。遅らせる力が戦場を支配する。" },
+  73: { title:"始原の剣", body:"全ての始まりを宿す剣。以前には何も存在しなかった原初の力。" },
+  74: { title:"終焉の祈り", body:"全ての終わりを告げる祈り。以後には何も残らない最後の力。" },
+  75: { title:"最上の暗器", body:"全てを超える高みから放たれる暗器。より上に存在するものはない。" },
+  76: { title:"内なる盾", body:"どんなに近い脅威も防ぐ盾。最も内に宿る近しい守護の力。" },
+  77: { title:"統治の矢", body:"射た場所が統治下に入る矢。全てを所有し支配する力が宿る。" },
+  78: { title:"至高の法衣", body:"着た者を最も高尚な位に引き上げる法衣。全てが支配下に入る。" },
+  79: { title:"慈善の術", body:"術をかけた者に哀れみと慈しみを与える。慈善があふれ出す。" },
+  80: { title:"赦しの太刀", body:"斬った後に傷を癒す太刀。悔悟した者の罪を赦す力が宿る。" },
+  81: { title:"断罪の足跡", body:"踏んだ場所の不正が暴かれる。罪を明らかにし報復する力。" },
+  82: { title:"免罪の剣", body:"罪ある者の過去を清める剣。悔悟した者の罪を赦す唯一の力。" },
+  83: { title:"哀れみの祈り", body:"この上ない慈しみを注ぐ祈り。深い哀れみが奇跡を生む。" },
+  84: { title:"王権の鍵", body:"開けた先に王国が広がる鍵。全ての王国と統治を手にする力。" },
+  85: { title:"荘厳の盾", body:"見るだけで敵が畏れる盾。比類なき偉大さと威厳が宿る。" },
+  86: { title:"公正の矢", body:"功罪に応じた場所に着弾する矢。公平な報いを体現する力。" },
+  87: { title:"収束の法衣", body:"着た者の周囲に全てが集まる法衣。被造物を収集する力が宿る。" },
+  88: { title:"自足の太刀", body:"何も必要とせず完結する太刀。満ち足りた独立の力が宿る。" },
+  89: { title:"富与の足跡", body:"踏んだ場所に豊かさをもたらす歩み。必要なものを与え続ける。" },
+  90: { title:"禁制の剣", body:"触れたものの動きを封じる剣。禁じる力と守護が一体となる。" },
+  91: { title:"害毒の祈り", body:"敵に不運をもたらす呪いの祈り。望む者に害を与える力。" },
+  92: { title:"恩恵の鍵", body:"開けた先に利益が広がる鍵。望む者に恩恵を与える力が宿る。" },
+  93: { title:"光芒の暗器", body:"放つと光が満ちる暗器。天地を照らす光が闇を全て消し去る。" },
+  94: { title:"導きの盾", body:"持つ者を常に正しい道へ誘う盾。真理の理解が守護となる。" },
+  95: { title:"創世の矢", body:"射た先に類を見ない何かが生まれる矢。唯一無二の創造の力。" },
+  96: { title:"不朽の法衣", body:"着た者を変化から守る法衣。不朽にして不変の永続する力。" },
+  97: { title:"継承の魔眼", body:"全てを継承し記憶する魔眼。消滅後も存在し続ける永生の力。" },
+  98: { title:"正道の太刀", body:"迷いを断ち切り正しい道を示す太刀。正道への導きが宿る。" },
+  99: { title:"忍耐の足跡", body:"どれほど時間がかかっても歩み続ける力。辛抱強い忍耐が宿る。" },
+};
+
+function getCrossAbility(n) {
+  return crossMap[n] || { title:"未知の力", body:"まだ名のつかない力が眠っている。" };
+}
+
+// ===== 日運メッセージ =====
+const dailyMessages = {
+  1: "始まりと純粋な意志の中、あまねく慈しみが全存在に行き渡り、新たな一歩が世界を照らす物語。",
+  2: "閃きと直感が深い慈愛と出会い、受容の心が個の魂に寄り添い、内側から答えを生む物語。",
+  3: "創造と表現の喜びが形成の構造の中で王となり、言葉が秩序を生み出す物語。",
+  4: "安定と忍耐が慈悲の豊穣に根を張り、完全な神聖として欠陥なく花開く物語。",
+  5: "変化と冒険が試練の領域で平和の意味を問い、破壊の先に完璧な安らぎを見出す物語。",
+  6: "調和と奉仕が美しき中心で信仰の守護と結ばれ、愛が真意を証明する物語。",
+  7: "内省と神秘が感情の自然の力と出会い、完全な監視の中に一挙一動を見通す眼が宿る物語。",
+  8: "力と野心が栄光と言語の領域で比類なき偉大と融合し、達成が絶対的強大を体現する物語。",
+  9: "完成と解放の慈悲が夢と無意識の基盤で全てを従え、普遍の支配が深みに宿る物語。",
+  10: "始まりの意志が王国と物質界で最も高遠な卓越と出会い、現実の中に比類なき高みが顕現する物語。",
+  11: "協調と受容の直感が深淵の変容の閾で無からの創造と出会い、全ての始まりを引き出す物語。",
+  12: "創造と表現の力が純粋な意志の源の下、先天的清純さで造形され、純粋な形が光の中に生まれる物語。",
+  13: "安定と基盤の意志が閃きと創造の火花の中、多様な形への造形と融合し差異の美を生む物語。",
+  14: "変化と自由が形成と制限の構造の中で深い赦しと出会い、繰り返す寛容が道を開く物語。",
+  15: "調和と愛が慈悲の豊穣の中、真の支配と出会い、奉仕が全てを従わせる力となる物語。",
+  16: "内省と探求が審判と試練の領域で絶えなき施しと出会い、孤独の中に尽きない寛大が輝く物語。",
+  17: "力と野心が美と調和の中心で全ての糧と出会い、達成が恵みの源となる物語。",
+  18: "完成と解放の慈悲が勝利と感情の自然の力の中、扉を開き真理と正義の裁きに至る物語。",
+  19: "始まりの意志が栄光と言語の領域で完全な知と融合し、言葉が全てを知り尽くす物語。",
+  20: "協調と直感が夢と無意識の基盤で恵みを封じ、隠された豊かさを収める物語。",
+  21: "創造と喜びが王国と物質界で豊かさを広げ、表現が世界に実を結ぶ物語。",
+  22: "安定と基盤が深淵の変容の閾で高低を決め、忍耐が秩序を崩し再構築する物語。",
+  23: "変化と自由が純粋な意志の源の下、高められ尊ばれ、冒険が宇宙の祝福を受ける物語。",
+  24: "調和と奉仕が閃きと創造の火花の中、栄誉を授与され、愛が名誉となって輝く物語。",
+  25: "内省と孤独が形成と制限の構造の中、屈辱と出会い、探求の果てに真の謙虚さが磨かれる物語。",
+  26: "力と野心が慈悲の豊穣の中、全聴と出会い、達成の声が全ての方向から聞き届けられる物語。",
+  27: "完成と解放の慈悲が審判と試練の領域で全視と出会い、普遍の眼が全てを見通す物語。",
+  28: "始まりの意志が美と調和の中心で完璧な審判と出会い、開拓の道に欠点なき裁きが宿る物語。",
+  29: "協調と受容が勝利と感情の力の中、絶対的公正と融合し、感情の波が正義を体現する物語。",
+  30: "創造と表現の喜びが栄光と知性の領域で神妙な細やかさと出会い、見えない優しさを言葉にする物語。",
+  31: "安定と忍耐が夢と無意識の基盤で全事象に通暁し、実直な歩みが隠れた真実を精通する物語。",
+  32: "変化と自由が王国と物質界で罪への猶予と出会い、冒険の先に深い寛恕が待つ物語。",
+  33: "調和と愛が深淵の変容の閾で比類なき偉大と出会い、奉仕が荘厳な王国に捧げられる物語。",
+  34: "内省と探求が純粋な意志の源の下、深い赦しと出会い、神秘の孤独に寛容な包容が宿る物語。",
+  35: "力と野心が閃きと創造の火花の中、善行の報奨と出会い、達成の行動が倍増した実りを生む物語。",
+  36: "完成と解放の慈悲が形成と制限の構造の中、崇高な存在と出会い、高みへの道が開かれる物語。",
+  37: "始まりの意志が慈悲の豊穣の中、至大なる偉大と出会い、小さな一歩が偉大な恵みの中に置かれる物語。",
+  38: "協調と受容が審判と試練の領域で守護の知識と出会い、直感が全ての知を守り抜く物語。",
+  39: "創造と表現の喜びが美と調和の中心で真の滋養と出会い、全ての守護と執行が美しく体現される物語。",
+  40: "安定と基盤が勝利と感情の自然の力の中、完全な計算と出会い、忍耐が全ての充足を生む物語。",
+  41: "変化と自由が栄光と知性の領域で崇高な偉大と出会い、冒険の適応が慈悲と栄光を体現する物語。",
+  42: "調和と愛が夢と無意識の基盤で、この上ない高貴と出会い、奉仕が測り知れない善を体現する物語。",
+  43: "内省と探求が王国と物質界で全状況の監視と出会い、神秘の孤独が常に見守られる物語。",
+  44: "力と野心が深淵の変容の閾で必要に応える応答と出会い、達成の問いに答えが降りてくる物語。",
+  45: "完成と解放が純粋な意志の源の下、あまねく行き渡る恵みと融合し、宇宙の慈悲が完成を祝う物語。",
+  46: "始まりの意志が閃きと創造の火花の中、英知と正義と出会い、ふさわしき場への配置が世界を整える物語。",
+  47: "協調と受容が形成と制限の構造の中、服従する者への愛と出会い、直感が愛の奉仕を形にする物語。",
+  48: "創造と表現の喜びが慈悲の豊穣の中、栄誉高い御業を讃え、豊かさの中に偉大を見出す物語。",
+  49: "安定と忍耐が審判と試練の領域で死後の復活と出会い、基盤が蘇生の力を支える物語。",
+  50: "変化と自由が美と調和の中心で全ての証言と出会い、冒険の記録が美の中に刻まれる物語。",
+  51: "調和と愛が勝利と感情の自然の力の中、疑念なき真理と出会い、奉仕の純粋な流れが真実を証明する物語。",
+  52: "内省と探求が栄光と知性の領域で諸事の引き受けと融合し、孤独な知性が全てを担う物語。",
+  53: "力と野心が夢と無意識の基盤で最も強大な力と共鳴し、夢の奥底に眠る絶対の力が目覚める物語。",
+  54: "完成と解放の慈悲が王国と物質界で無尽の力と出会い、普遍の恵みがいかなるものも逃れられない物語。",
+  55: "始まりの意志が深淵の変容の閾で全ての物事の企画と出会い、開拓の魂が深淵の設計図を描く物語。",
+  56: "協調と受容が純粋な意志の源の下、真の賞讃と融合し、バランスの直感が栄光ある御業を受け取る物語。",
+  57: "創造と表現の喜びが閃きと創造の火花の中、全ての計量と出会い、言葉が宇宙の均衡を量る物語。",
+  58: "安定と忍耐が形成と制限の構造の中、全ての創始と共鳴し、基盤が存在の始まりを体現する物語。",
+  59: "変化と自由が慈悲の豊穣の中、全てを還す再生と出会い、冒険の果てに豊かな再生が待つ物語。",
+  60: "調和と愛が審判と試練の領域で命を与える力と出会い、奉仕が生命と復活をもたらす物語。",
+  61: "内省と探求が美と調和の中心で死をもたらす力と出会い、神秘の孤独が終わりと再生の均衡を見る物語。",
+  62: "力と野心が勝利と感情の自然の力の中、永遠の生と融合し、達成の欲望が不滅の勝利へと昇華する物語。",
+  63: "完成と解放の慈悲が栄光と知性の領域で自存の運営と出会い、言葉が自らの力で世界を動かす物語。",
+  64: "始まりの意志が夢と無意識の基盤で豊かな知覚を見出し、開拓の探求が夢の深みに宝を見つける物語。",
+  65: "協調と受容が王国と物質界で最も栄光ある高貴と出会い、直感が現実に類なき輝きをもたらす物語。",
+  66: "創造と表現の喜びが深淵の変容の閾で完璧さを一身に結集した唯一と出会い、孤高の統一が語られる物語。",
+  67: "安定と忍耐が純粋な意志の源の下、何ものにも似つかない唯一と出会い、実直な歩みが独自の道を刻む物語。",
+  68: "変化と自由が閃きと創造の火花の中、全てにおいて依拠される完璧な存在と出会い、冒険が完璧な拠り所を得る物語。",
+  69: "調和と奉仕が形成と制限の構造の中、全てを適切に定める全能と出会い、愛が秩序の中に完璧に配置される物語。",
+  70: "内省と探求が慈悲の豊穣の中、完全な能力と出会い、神秘の孤独が誤りなき精度で豊かさを生む物語。",
+  71: "力と野心が審判と試練の領域で先立たせる力と出会い、達成の魂が試練の中で誰よりも先を行く物語。",
+  72: "完成と解放の慈悲が美と調和の中心で遅れを超え、普遍の均衡の中に慈悲が実現する物語。",
+  73: "始まりの意志が勝利と感情の自然の力の中、最初の存在と共鳴し、開拓の奔流が全ての始まりを呼び覚ます物語。",
+  74: "協調と受容が栄光と知性の領域で最後の存在と出会い、バランスの知性が終わりの意味を問う物語。",
+  75: "創造と表現の喜びが夢と無意識の基盤で最も上なる高みを目指し、上昇の物語が夢の中に描かれる物語。",
+  76: "安定と忍耐が王国と物質界で最も内なる近しさと一体となり、実直な基盤が現実に深く根を張る物語。",
+  77: "変化と自由が深淵の変容の閾で全てを所有し統治する力と出会い、冒険の変容が所有と支配を問い直す物語。",
+  78: "調和と愛が純粋な意志の源の下、天上高き至高と出会い、奉仕が至高の支配下に捧げられる物語。",
+  79: "内省と探求が閃きと創造の火花の中、慈しみ深い慈善と出会い、神秘の知恵が哀れみを宿す物語。",
+  80: "力と野心が形成と制限の構造の中、悔悟の受け入れと出会い、達成の魂に赦しの扉が開かれる物語。",
+  81: "完成と解放の慈悲が豊穣の恵みの中、罪を明らかにする正義と出会い、普遍の愛が裁きと共に宿る物語。",
+  82: "始まりの意志が審判と試練の領域で唯一の免罪と出会い、開拓の道の果てに赦しの解放が待つ物語。",
+  83: "協調と受容が美と調和の中心でこの上ない慈しみと出会い、バランスの哀れみが調和を生む物語。",
+  84: "創造と表現の喜びが勝利と感情の自然の力の中、全ての王国の所有と出会い、感情が王たる物語を語る物語。",
+  85: "安定と忍耐が栄光と知性の領域で比類なき偉大さと威厳と出会い、実直な歩みが慈悲と慈善を体現する物語。",
+  86: "変化と自由が夢と無意識の基盤で公正な裁きと出会い、冒険の変化が均衡の報いを引き寄せる物語。",
+  87: "調和と愛が王国と物質界で最後の審判での収集と出会い、奉仕が現実の世界に全てを集い結実させる物語。",
+  88: "内省と探求が深淵の変容の閾で満ち足りた独立と出会い、孤独の神秘が完全な自足を深淵に見出す物語。",
+  89: "力と野心が純粋な意志の源の下、必要なものを与え豊かにする力と融合し、達成が宇宙から満たされる物語。",
+  90: "完成と解放の慈悲が閃きと創造の火花の中、禁じる守護と出会い、普遍の知恵が守られた閃きを昇華する物語。",
+  91: "始まりの意志が形成と制限の構造の中、害をも超え、開拓の力が制限の中から磨かれる物語。",
+  92: "協調と受容が慈悲の豊穣の中、利益をもたらす力と出会い、直感が豊かさの恵みを引き寄せる物語。",
+  93: "創造と表現の喜びが審判と試練の領域で光を放ち、天地を照らす輝きが試練を乗り越える物語。",
+  94: "安定と忍耐が美と調和の中心で全被造物を福利へ導く力と出会い、実直な歩みが真理の理解へと至る物語。",
+  95: "変化と自由が勝利と感情の自然の力の中、類まれな創造と出会い、冒険の適応が唯一無二の形を生む物語。",
+  96: "調和と愛が栄光と知性の領域で不朽の永続と出会い、奉仕の責任が変わらぬ栄光を語り継ぐ物語。",
+  97: "内省と探求が夢と無意識の基盤で全てを継承する存在と出会い、神秘の孤独が消滅を超えて続く物語。",
+  98: "力と野心が王国と物質界で正しい道への導きと出会い、達成の歩みが現実の世界で真の道を開く物語。",
+  99: "完成と解放の慈悲が深淵の変容の閾で忍耐の力と融合し、あらゆるものを包む普遍の愛が深淵に宿る物語。",
+};
+
+function getDailyMessage(n) {
+  return dailyMessages[n] || "今日もまた、物語は静かに動いている。";
+}
+
+// ===== 投稿文 =====
+function buildShareText(data){
+  const shortName = horizontalMap[data.horizontal].replace(/^.*領域/, "");
+  return `もう一人のあなたの転生結果は…
+
+【${shortName}の${verticalMap[data.vertical]}】
+
+・ヴァーチカルナンバー${data.vertical}
+「${verticalMap[data.vertical]}」の才を宿す
+
+・ホリゾンタルナンバー${data.horizontal}
+「${horizontalMap[data.horizontal]}」に導かれる
+
+そして――
+クロスナンバー${data.cross}の力が目覚める
+
+#異世界転生数秘術
+
+https://zkey44.github.io/numerology/`;
+}
+
+// ===== 計算 =====
+function modFix(v,m){ return v%m===0?m:v%m; }
+
+function mod11to0(v){
+  const r = modFix(v,11);
+  return r === 11 ? 0 : r;
+}
+
+function calculateFortune(){
+  const input=document.getElementById("birthdate").value;
+  if(!input) return null;
+  const [y,m,d]=input.split("-").map(Number);
+  const total=y+m+d;
+  return {
+    vertical:modFix(total,9),
+    horizontal:mod11to0(total),
+    cross:modFix(total,99)
+  };
+}
+
+function getDigits(){
+  return document.getElementById("birthdate").value
+    .replaceAll("-","")
+    .split("")
+    .reverse()
+    .map(Number);
+}
+
+function findPos(n){
+  for(let y=0;y<9;y++){
+    for(let x=0;x<11;x++){
+      if(gridData[y][x]===n) return {x,y};
+    }
+  }
+}
+
+function move(start,digits){
+  let path=[], x=start.x,y=start.y;
+  path.push({x,y});
+  digits.forEach((num,i)=>{
+    for(let j=0;j<num;j++){
+      if(i%2===0){
+        x=(x+1)%11;
+        y=(y-1+9)%9;
+      }else{
+        x=(x-1+11)%11;
+        y=(y-1+9)%9;
+      }
+      path.push({x,y});
+    }
+  });
+  return path;
+}
+
+// ===== 日運：指定日付の各桁に分解して移動（move()と同方式） =====
+function getDailyDigits(year, month, day){
+  const str = `${year}${String(month).padStart(2,"0")}${String(day).padStart(2,"0")}`;
+  return str.split("").reverse().map(Number);
+}
+
+function moveDaily(start, digits){
+  return move(start, digits);
+}
+
+// ===== グリッド描画（メイン） =====
+function createGrid(path, final, vNum, hNum, currentPos){
+  const grid=document.getElementById("grid");
+  grid.innerHTML="";
+
+  let currentV = currentPos ? verticalAxis[currentPos.y] : null;
+  let currentH = currentPos ? horizontalAxis[currentPos.x] : null;
+
+  grid.appendChild(document.createElement("div"));
+  horizontalAxis.forEach(n=>{
+    let d=document.createElement("div");
+    d.className="axis";
+    if(currentPos && n===currentH) d.classList.add("axis-current");
+    else if(final && n===hNum) d.classList.add("final-horizontal");
+    d.textContent=n;
+    grid.appendChild(d);
+  });
+  grid.appendChild(document.createElement("div"));
+
+  for(let y=0;y<9;y++){
+    let l=document.createElement("div");
+    l.className="axis";
+    if(currentPos && verticalAxis[y]===currentV) l.classList.add("axis-current");
+    else if(final && verticalAxis[y]===vNum) l.classList.add("final-vertical");
+    l.textContent=verticalAxis[y];
+    grid.appendChild(l);
+
+    for(let x=0;x<11;x++){
+      let num=gridData[y][x];
+      let cell=document.createElement("div");
+      cell.className="cell";
+      cell.textContent=num.toString().padStart(2,"0");
+      if(path.some(p=>p.x===x && p.y===y)) cell.classList.add("passed");
+      if(num===99 && !currentPos) cell.classList.add("start");
+      if(final && final.x===x && final.y===y) cell.classList.add("final-cross");
+      if(currentPos && currentPos.x===x && currentPos.y===y) cell.classList.add("current");
+      grid.appendChild(cell);
+    }
+
+    let r=document.createElement("div");
+    r.className="axis";
+    if(currentPos && verticalAxis[y]===currentV) r.classList.add("axis-current");
+    else if(final && verticalAxis[y]===vNum) r.classList.add("final-vertical");
+    r.textContent=verticalAxis[y];
+    grid.appendChild(r);
+  }
+
+  grid.appendChild(document.createElement("div"));
+  horizontalAxis.forEach(n=>{
+    let d=document.createElement("div");
+    d.className="axis";
+    if(currentPos && n===currentH) d.classList.add("axis-current");
+    else if(final && n===hNum) d.classList.add("final-horizontal");
+    d.textContent=n;
+    grid.appendChild(d);
+  });
+  grid.appendChild(document.createElement("div"));
+}
+
+// ===== グリッド描画（日運） =====
+function createDailyGrid(mainFinal, dailyPath, dailyFinal, dailyVNum, dailyHNum, currentPos, startVNum, startHNum){
+  const grid=document.getElementById("daily-grid");
+  grid.innerHTML="";
+
+  let currentV = currentPos ? verticalAxis[currentPos.y] : null;
+  let currentH = currentPos ? horizontalAxis[currentPos.x] : null;
+
+  // 軸の色判定:
+  // 移動中(currentPos あり) → オレンジ(daily-axis-current)
+  // 開始前・到達前(currentPos なし & dailyFinal なし) → オレンジ(daily-final-horizontal/vertical)
+  // 到達後(currentPos なし & dailyFinal あり) → 青・緑(final-vertical/final-horizontal)
+  const isFinished = !currentPos && dailyFinal !== null;
+  // 軸表示に使うV/H:
+  // 計算中(currentPos あり) → currentPos のV/H
+  // 計算前(currentPos なし & dailyFinal なし) → スタートのV/H
+  // 計算後(currentPos なし & dailyFinal あり) → ゴールのV/H
+  const axisVNum = currentPos ? currentV : (isFinished ? dailyVNum : (startVNum ?? dailyVNum));
+  const axisHNum = currentPos ? currentH : (isFinished ? dailyHNum : (startHNum ?? dailyHNum));
+
+  grid.appendChild(document.createElement("div"));
+  horizontalAxis.forEach(n=>{
+    let d=document.createElement("div");
+    d.className="axis";
+    if(currentPos && n===currentH) d.classList.add("daily-axis-current");
+    else if(n===axisHNum){
+      d.classList.add(isFinished ? "final-horizontal" : "daily-final-horizontal");
+    }
+    d.textContent=n;
+    grid.appendChild(d);
+  });
+  grid.appendChild(document.createElement("div"));
+
+  for(let y=0;y<9;y++){
+    let l=document.createElement("div");
+    l.className="axis";
+    if(currentPos && verticalAxis[y]===currentV) l.classList.add("daily-axis-current");
+    else if(verticalAxis[y]===axisVNum){
+      l.classList.add(isFinished ? "final-vertical" : "daily-final-vertical");
+    }
+    l.textContent=verticalAxis[y];
+    grid.appendChild(l);
+
+    for(let x=0;x<11;x++){
+      let num=gridData[y][x];
+      let cell=document.createElement("div");
+      cell.className="cell";
+      cell.textContent=num.toString().padStart(2,"0");
+
+      const isMainFinal = mainFinal && mainFinal.x===x && mainFinal.y===y;
+      const isDailyFinal = dailyFinal && dailyFinal.x===x && dailyFinal.y===y;
+
+      if(isMainFinal && !isDailyFinal && !currentPos){
+        cell.classList.add(isFinished ? "daily-start-finished" : "daily-start");
+      }
+
+      if(dailyPath.some(p=>p.x===x && p.y===y) && !isDailyFinal) cell.classList.add("daily-passed");
+      if(isDailyFinal && !currentPos) cell.classList.add("daily-cross");
+      if(currentPos && currentPos.x===x && currentPos.y===y) cell.classList.add("daily-current");
+
+      grid.appendChild(cell);
+    }
+
+    let r=document.createElement("div");
+    r.className="axis";
+    if(currentPos && verticalAxis[y]===currentV) r.classList.add("daily-axis-current");
+    else if(verticalAxis[y]===axisVNum){
+      r.classList.add(isFinished ? "final-vertical" : "daily-final-vertical");
+    }
+    r.textContent=verticalAxis[y];
+    grid.appendChild(r);
+  }
+
+  grid.appendChild(document.createElement("div"));
+  horizontalAxis.forEach(n=>{
+    let d=document.createElement("div");
+    d.className="axis";
+    if(currentPos && n===currentH) d.classList.add("daily-axis-current");
+    else if(n===axisHNum){
+      d.classList.add(isFinished ? "final-horizontal" : "daily-final-horizontal");
+    }
+    d.textContent=n;
+    grid.appendChild(d);
+  });
+  grid.appendChild(document.createElement("div"));
+}
+
+// ===== アニメ（メイン） =====
+function animate(path, final, vNum, hNum, onComplete){
+  let step=0;
+  function loop(){
+    if(step>=path.length){
+      createGrid(path, null, vNum, hNum, final);
+      setTimeout(()=>{
+        createGrid(path, final, vNum, hNum);
+        setTimeout(onComplete,300);
+      },300);
+      return;
+    }
+    createGrid(path.slice(0,step+1), null, vNum, hNum, path[step]);
+    step++;
+    setTimeout(loop,90);
+  }
+  loop();
+}
+
+// ===== アニメ（日運） =====
+function animateDaily(mainFinal, dailyPath, dailyFinal, dailyVNum, dailyHNum, onComplete){
+  const startVNum = verticalAxis[mainFinal.y];
+  const startHNum = horizontalAxis[mainFinal.x];
+  let step=0;
+  function loop(){
+    if(step>=dailyPath.length){
+      createDailyGrid(mainFinal, dailyPath, null, dailyVNum, dailyHNum, dailyFinal, startVNum, startHNum);
+      setTimeout(()=>{
+        createDailyGrid(mainFinal, dailyPath, dailyFinal, dailyVNum, dailyHNum, null, startVNum, startHNum);
+        setTimeout(onComplete,300);
+      },300);
+      return;
+    }
+    createDailyGrid(mainFinal, dailyPath.slice(0,step+1), null, dailyVNum, dailyHNum, dailyPath[step], startVNum, startHNum);
+    step++;
+    setTimeout(loop,90);
+  }
+  loop();
+}
+
+// ===== メイン実行 =====
+let lastResultText = "";
+let lastMainFinal = null;
+
+function run(){
+  const data=calculateFortune();
+  if(!data) return;
+
+  const resultEl = document.getElementById("result");
+  resultEl.classList.remove("show");
+
+  // 日運エリアをリセット
+  document.getElementById("daily-area").style.display = "none";
+  document.getElementById("daily-result").classList.remove("show");
+  document.getElementById("daily-result").innerHTML = "";
+
+  const path=move(findPos(99), getDigits());
+  const final=path[path.length-1];
+  lastMainFinal = final;
+
+
+  animate(path, final, data.vertical, data.horizontal, ()=>{
+    const text =
+`ヴァーチカルナンバー${data.vertical}の加護により、
+「${verticalMap[data.vertical]}」の才を宿す
+${verticalDesc[data.vertical]}
+
+ホリゾンタルナンバー${data.horizontal}の導きにより、
+「${horizontalMap[data.horizontal]}」に降り立つ
+${horizontalDesc[data.horizontal]}
+
+そして――
+クロスナンバー${data.cross}の発現により、
+固有能力：「${getCrossAbility(data.cross).title}」が目覚める。
+${getCrossAbility(data.cross).body}`;
+
+    resultEl.innerHTML = text.replace(/\n/g,"<br>");
+
+    requestAnimationFrame(()=>{
+      resultEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(()=>{ resultEl.classList.add("show"); }, 300);
+    });
+
+    lastResultText = buildShareText(data);
+
+    document.getElementById("shareBtn").style.display = "inline-block";
+    document.getElementById("dailyBtn").style.display = "inline-block";
+    document.getElementById("discordInfo").style.display = "block";
+    document.getElementById("discordBtn").style.display = "inline-block";
+  });
+}
+
+// ===== 日運実行 =====
+function runDaily(){
+  if(!lastMainFinal) return;
+
+  const data = calculateFortune();
+  if(!data) return;
+
+  const today = new Date();
+  const year  = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day   = today.getDate();
+
+  const total = year + month + day;
+  const dailyNum = modFix(data.cross + total, 99);
+
+  const dailyDigits = getDailyDigits(year, month, day);
+  const dailyPath = moveDaily(lastMainFinal, dailyDigits);
+  const dailyFinal = dailyPath[dailyPath.length - 1];
+
+  const dailyVNum = verticalAxis[dailyFinal.y];
+  const dailyHNum = horizontalAxis[dailyFinal.x];
+
+  const msg = getDailyMessage(dailyNum);
+
+  // ① 日運エリアを表示
+  const dailyArea = document.getElementById("daily-area");
+  dailyArea.style.display = "block";
+
+  const dailyResultEl = document.getElementById("daily-result");
+  dailyResultEl.classList.remove("show");
+  dailyResultEl.innerHTML = "";
+
+  // ② スタート状態のグリッドを先に描画してページ高さを確保（拡大なし）
+  const startVNum = verticalAxis[lastMainFinal.y];
+  const startHNum = horizontalAxis[lastMainFinal.x];
+  createDailyGrid(lastMainFinal, [], null, dailyVNum, dailyHNum, null, startVNum, startHNum);
+
+  // ③ 1フレーム待ってレイアウト確定後にスクロール
+  requestAnimationFrame(()=>{
+    dailyArea.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    // ④ スクロール完了を待ってからアニメーション開始
+    setTimeout(()=>{
+      animateDaily(lastMainFinal, dailyPath, dailyFinal, dailyVNum, dailyHNum, ()=>{
+        const dateStr = `${year}年${month}月${day}日`;
+        const text =
+`${dateStr}
+
+ヴァーチカルナンバー ${dailyVNum}
+ホリゾンタルナンバー ${dailyHNum}
+クロスナンバー ${dailyNum}
+
+${msg}`;
+
+        dailyResultEl.innerHTML = text.replace(/\n/g,"<br>");
+
+        lastDailyResultText = buildDailyShareText(dailyNum, msg, dailyVNum, dailyHNum);
+        document.getElementById("dailyShareBtn").style.display = "inline-block";
+        document.getElementById("dailyDiscordInfo").style.display = "block";
+        document.getElementById("dailyDiscordBtn").style.display = "inline-block";
+        requestAnimationFrame(()=>{
+          dailyResultEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          setTimeout(()=>{ dailyResultEl.classList.add("show"); }, 300);
+        });
+      });
+    }, 800);
+  });
+}
+
+// ===== 日運シェアテキスト =====
+let lastDailyResultText = "";
+
+function buildDailyShareText(dailyNum, msg, vNum, hNum){
+  return `今日の物語が幕を開ける……
+
+ヴァーチカルナンバー ${vNum} / ホリゾンタルナンバー ${hNum} / クロスナンバー ${dailyNum}
+
+${msg}
+
+#異世界転生数秘術
+
+https://zkey44.github.io/numerology/`;
+}
+
+function shareDailyResult(){
+  const text = encodeURIComponent(lastDailyResultText);
+  window.open("https://twitter.com/intent/tweet?text=" + text, "_blank");
+}
+
+// ===== X共有 =====
+function shareResult(){
+  const text = encodeURIComponent(lastResultText);
+  window.open("https://twitter.com/intent/tweet?text=" + text, "_blank");
+}
+
+// ===== Discord =====
+function openDiscord(){
+  window.open("https://discord.gg/SEyaRxq9yu", "_blank");
+}
+
+// ===== 初期表示 =====
+const startPos = findPos(99);
+createGrid([], null, 9, 11, startPos);
+
+</script>
+
+</body>
+</html>
